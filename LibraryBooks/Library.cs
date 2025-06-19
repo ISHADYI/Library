@@ -28,7 +28,6 @@ namespace BookLibraryProject
             }
         }
 
-        //===============
         public List<Book> FilterBooks(string searchQuery, string option)
         {
             searchQuery = searchQuery?.ToLower().Trim() ?? "";
@@ -50,7 +49,6 @@ namespace BookLibraryProject
                 filtered = filtered.Where(b => !b.IsRead);
             return filtered.ToList();
         }
-        //=============
 
         public int GetReadCount() => books.Count(b => b.IsRead);
 
