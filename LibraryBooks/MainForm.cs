@@ -47,8 +47,6 @@ namespace BookLibraryProject
                 textBoxSearch.Text,
                 comboBoxFilters.SelectedItem?.ToString() ?? "Все книги"
             );
-
-            //listBoxBooks.DataSource = null;
             listBoxBooks.DataSource = currentDisplayBooks;
             listBoxBooks.DisplayMember = "ToString";
 
@@ -85,10 +83,6 @@ namespace BookLibraryProject
             library.SaveToFile(DataFile);
             MessageBox.Show("Данные сохранены.", "Сохранение", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-        private void comboBoxFilters_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
         
         private void ButtonDeleteBook_Click(object sender, EventArgs e)
         {
@@ -102,22 +96,17 @@ namespace BookLibraryProject
             // Получаем выбранную книгу
             var selectedBook = listBoxBooks.SelectedItem as Book;
 
-            if (selectedBook == null)
+            /*if (selectedBook == null)
             {
                 MessageBox.Show("Ошибка: выбранный элемент не книга");
                 return;
-            }
+            } */
 
             // Удаляем книгу из библиотеки по Id
             library.RemoveBook(selectedBook.Id);
 
             // Обновляем отображение списка книг
             RefreshList();
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace BookLibraryProject
 {
@@ -9,55 +8,79 @@ namespace BookLibraryProject
     {
         private List<Book> books = new List<Book>();
         private int nextId = 1;
-
         public List<Book> Books => books;
 
         public void AddBook(string title, string author, string genre, int year, bool isRead, DateTime? readDate)
         {
-            var book = new Book(nextId++, title, author, genre, year, isRead, readDate);
+            Book book = new Book(nextId, title, author, genre, year, isRead, readDate);
+            nextId++;
             books.Add(book);
         }
 
         public void ToggleReadStatus(int bookId)
         {
-            var book = books.FirstOrDefault(b => b.Id == bookId);
-            if (book != null)
+            for (int i = 0; i < books.Count; i++)
             {
-                book.IsRead = !book.IsRead;
-                book.ReadDate = book.IsRead ? (DateTime?)DateTime.Now : null;
+                if (books[i].Id == bookId)
+                {
+                    books[i].IsRead = !books[i].IsRead;
+                    //если теперь книга прочитана, ставим сегодняшнюю дату
+                    books[i].ReadDate = books[i].IsRead ? (DateTime?)DateTime.Now : null;
+                    break;
+                }
             }
         }
 
         public List<Book> FilterBooks(string searchQuery, string option)
         {
-            searchQuery = searchQuery?.ToLower().Trim() ?? "";
-            IEnumerable<Book> filtered = books;
+            List<Book> result = new List<Book>();
+            // нижний регистр, без пробелов
+            string query = (searchQuery ?? "").ToLower().Trim();
 
-            // Фильтрация по тексту
-            if (!string.IsNullOrEmpty(searchQuery))
+            for (int i = 0; i < books.Count; i++)
             {
-                filtered = filtered.Where(b =>
-                    b.Title.ToLower().Contains(searchQuery) ||
-                    b.Author.ToLower().Contains(searchQuery)
-                );
+                Book book = books[i];
+                bool matchesQuery = book.Title.ToLower().Contains(query) || book.Author.ToLower().Contains(query);
+                bool matchesFilter = true;
+
+                if (option == "Только прочитанные" && !book.IsRead)
+                    matchesFilter = false;
+                else if (option == "Только непрочитанные" && book.IsRead)
+                    matchesFilter = false;
+
+                if (matchesQuery && matchesFilter)
+                {
+                    result.Add(book);
+                }
             }
 
-            // Фильтрация по статусу
-            if (option == "Только прочитанные")
-                filtered = filtered.Where(b => b.IsRead);
-            else if (option == "Только непрочитанные")
-                filtered = filtered.Where(b => !b.IsRead);
-            return filtered.ToList();
+            return result;
         }
 
-        public int GetReadCount() => books.Count(b => b.IsRead);
+        public int GetReadCount()
+        {
+            int count = 0;
+            for (int i = 0; i < books.Count; i++)
+            {
+                if (books[i].IsRead)
+                    count++;
+            }
+            return count;
+        }
 
-        public int GetTotalCount() => books.Count;
+        public int GetTotalCount()
+        {
+            return books.Count;
+        }
 
         public void SaveToFile(string path)
         {
-            var lines = books.Select(b => b.ToFileString());
-            File.WriteAllLines(path, lines);
+            List<string> lines = new List<string>();
+            for (int i = 0; i < books.Count; i++)
+            {
+                lines.Add(books[i].ToFileString());
+            }
+            File.WriteAllLines(path, lines.ToArray());
         }
 
         public void LoadFromFile(string path)
@@ -66,21 +89,29 @@ namespace BookLibraryProject
                 return;
 
             books.Clear();
-            var lines = File.ReadAllLines(path);
-            foreach (var line in lines)
+            string[] lines = File.ReadAllLines(path);
+            int maxId = 0;
+
+            for (int i = 0; i < lines.Length; i++)
             {
-                var book = Book.FromFileString(line);
+                Book book = Book.FromFileString(lines[i]);
                 books.Add(book);
+                if (book.Id > maxId)
+                    maxId = book.Id;
             }
-            nextId = books.Count > 0 ? books.Max(b => b.Id) + 1 : 1;
+
+            nextId = maxId + 1;
         }
 
         public void RemoveBook(int id)
         {
-            var bookToRemove = books.FirstOrDefault(b => b.Id == id);
-            if (bookToRemove != null)
+            for (int i = 0; i < books.Count; i++)
             {
-                books.Remove(bookToRemove);
+                if (books[i].Id == id)
+                {
+                    books.RemoveAt(i);
+                    break;
+                }
             }
         }
     }

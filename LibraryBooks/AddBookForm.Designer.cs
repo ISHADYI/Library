@@ -181,7 +181,6 @@
             this.Controls.Add(this.textBoxTitle);
             this.Name = "AddBookForm";
             this.Text = "Добавление книги";
-            this.Load += new System.EventHandler(this.AddBookForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownYear)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

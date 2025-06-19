@@ -11,7 +11,7 @@ namespace BookLibraryProject
         {
             InitializeComponent();
 
-            // Ограничение даты прочтения
+            // Ограничение даты прочтения до сегодняшнего
             dateTimePickerReadDate.MaxDate = DateTime.Today;
             dateTimePickerReadDate.Enabled = false;
             checkBoxIsRead.CheckedChanged += CheckBoxIsRead_CheckedChanged;
@@ -72,11 +72,6 @@ namespace BookLibraryProject
         {
             DialogResult = DialogResult.Cancel;
             Close();
-        }
-
-        private void AddBookForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

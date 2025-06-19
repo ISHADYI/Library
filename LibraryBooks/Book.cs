@@ -30,11 +30,13 @@ namespace BookLibraryProject
             return $"{Id}. {Title} — {Author} ({Genre}, {Year} год) {readMark}";
         }
 
+        // это для txt файла
         public string ToFileString()
         {
             return $"{Id}|{Title}|{Author}|{Genre}|{Year}|{IsRead}|{(ReadDate.HasValue ? ReadDate.Value.ToString("yyyy-MM-dd") : "Н")}";
         }
 
+        // !доделать!
         public static Book FromFileString(string line)
         {
             var parts = line.Split('|');

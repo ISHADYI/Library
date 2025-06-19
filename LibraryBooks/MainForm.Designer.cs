@@ -125,7 +125,6 @@
             this.comboBoxFilters.Name = "comboBoxFilters";
             this.comboBoxFilters.Size = new System.Drawing.Size(245, 21);
             this.comboBoxFilters.TabIndex = 10;
-            this.comboBoxFilters.SelectedIndexChanged += new System.EventHandler(this.comboBoxFilters_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -191,7 +190,6 @@
             this.Controls.Add(this.listBoxBooks);
             this.Name = "MainForm";
             this.Text = "Главная";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
