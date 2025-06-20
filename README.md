@@ -15,4 +15,4 @@
 + Этап 3. Создание второй формы, исправление ошибок.
 + Этап 4. Подготовка к презентации. Создание презентации, закрепление материала, приведение в порядок код, добавление комментариев к функциям.
 
-### Презентация: https://docs.google.com/presentation/d/1LLG_he17AN6MGdvFMw4RcnrfaAHsUn4j/edit?usp=drive_link&ouid=108725361148901307578&rtpof=true&sd=true
+### Презентация: https://docs.google.com/presentation/d/1Qwy3LoS8Lrk_N_5FykHU-raZhtHqYVfn/edit?slide=id.p1#slide=id.p1
